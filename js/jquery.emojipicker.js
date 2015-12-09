@@ -11,7 +11,8 @@
         recentCount: 36,
         emojiSet: 'apple',
         container: 'body',
-        button: true
+        button: true,
+        insertShortcodes: false
       };
 
   var MIN_WIDTH = 300,
@@ -253,9 +254,13 @@
 
     emojiClicked: function(e) {
       var emojiShortcode = $(e.target).parent().find('.emoji').attr('class').split('emoji-')[1];
-      var emojiUnicode = toUnicode(findEmoji(emojiShortcode).unicode[defaults.emojiSet]);
-
-      insertAtCaret(this.element, emojiUnicode);
+      if (this.settings.insertShortcodes) {
+        insertAtCaret(this.element, ':' + emojiShortcode + ':');
+      }
+      else {
+        var emojiUnicode = toUnicode(findEmoji(emojiShortcode).unicode[defaults.emojiSet]);
+        insertAtCaret(this.element, emojiUnicode);
+      }
       addToLocalStorage(emojiShortcode);
       updateRecentlyUsed(emojiShortcode);
 
