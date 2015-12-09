@@ -9,7 +9,8 @@
         iconColor: 'black',
         iconBackgroundColor: '#eee',
         container: 'body',
-        button: true
+        button: true,
+        insertShortcodes: false
       };
 
   var MIN_WIDTH = 200,
@@ -204,9 +205,13 @@
 
     emojiClicked: function(e) {
       var emojiShortcode = $(e.target).attr('class').split('emoji-')[1];
-      var emojiUnicode = toUnicode(findEmoji(emojiShortcode).unicode);
-
-      insertAtCaret(this.element, emojiUnicode);
+      if (this.settings.insertShortcodes) {
+        insertAtCaret(this.element, ':' + emojiShortcode + ':');
+      }
+      else {
+        var emojiUnicode = toUnicode(findEmoji(emojiShortcode).unicode);
+        insertAtCaret(this.element, emojiUnicode);
+      }
 
       // trigger change event on input
       $(this.element).trigger("keyup");
